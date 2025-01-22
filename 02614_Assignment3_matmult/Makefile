@@ -4,7 +4,7 @@ OBJS	= matmult_funs.o
 CC	= nvc
 CXX	= nvc++
 
-OPT	= -g -fast -Msafeptr -Minfo -mp=gpu -gpu=mem:separate:pinnedalloc -gpu=lineinfo -gpu=cc90 -cuda -mp=noautopar -cudalib=cublas
+OPT	=  -g -fast -Msafeptr -Minfo -mp=gpu -gpu=mem:separate:pinnedalloc -gpu=lineinfo -gpu=cc90 -cuda -mp=noautopar -cudalib=cublas
 PIC   = -fpic -shared
 ISA	=
 PARA	=

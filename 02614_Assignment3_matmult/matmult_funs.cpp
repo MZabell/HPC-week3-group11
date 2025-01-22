@@ -1,6 +1,14 @@
 //
 // Created by Zahed on 22/01/2025.
 
+/**
+ * TODO
+ * The mkn version is not the optimal permutation when offloading to the GPU. Why?
+ * What team and thread sizes should experiment with? And is there a way to automatize?
+ *
+ */
+
+
 extern "C" {
 #include <cblas.h>
 #include <omp.h>

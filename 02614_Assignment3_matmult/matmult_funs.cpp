@@ -19,10 +19,37 @@ extern "C" {
 #include <omp.h>
 #include <stdio.h>
 
+void matmult_mkn_offload(int m, int n, int k, double **A, double **B, double **C) {
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            C[i][j] = 0;
+        }
+    }
+    int thread_size = 128;
+    int team_size = m * n / thread_size;
+#pragma omp target teams distribute parallel for num_teams(team_size) thread_limit(thread_size) \
+    map(to: A[0:m][0:k], B[0:k][0:n]) map(tofrom: C[0:m][0:n])
+    for (int i = 0; i < m; i++) {
+        for (int l = 0; l < k; l++) {
+            for (int j = 0; j < n; j++) {
+                C[i][j] += A[i][l] * B[l][j];
+            }
+        }
+    }
 
-void matmult_mkn_offload(int m, int n, int k, const double **A, const double **B, double **__restrict__ C) {
-    //int thread_size = 128;
-    int thread_size = 192;
+}
+
+
+
+
+
+
+
+
+/* ---------------- MNK -----------------------*/
+
+void matmult_mnk_offload(int m, int n, int k, const double **A, const double **B, double **__restrict__ C) {
+    int thread_size = 128;
     int team_size = m * n / thread_size;
 
 #pragma omp target teams distribute parallel for collapse(2) num_teams(team_size) thread_limit(thread_size) \
@@ -40,10 +67,8 @@ void matmult_mkn_offload(int m, int n, int k, const double **A, const double **B
 
 
 
-/* ---------------- MNK -----------------------*/
-
-void matmult_mnk_offload(int m, int n, int k, double **A, double **B, double **C) {
-    int thread_size = 192;
+void matmult_mnk_offload2(int m, int n, int k, double **A, double **B, double **C) {
+    int thread_size = 128;
     int team_size = (m * n / thread_size)/2 ;
 #pragma omp target teams distribute parallel for collapse(2) num_teams(team_size) thread_limit(thread_size) \
         map(to: A[0:m][0:k], B[0:k][0:n]) map(tofrom: C[0:m][0:n])
@@ -57,7 +82,6 @@ void matmult_mnk_offload(int m, int n, int k, double **A, double **B, double **C
         }
     }
 }
-
 
 
 /* ---------------- BLK -----------------------*/

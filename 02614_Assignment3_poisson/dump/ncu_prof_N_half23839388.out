@@ -1,0 +1,47 @@
+Running poisson with grid size 100
+WARNING: CPU IP/backtrace sampling not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+WARNING: CPU context switch tracing not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+CPU native:	0.980678	0.178863	5590.869708
+GPU map:	0.044400	0.088712	7512.473312
+GPU memcpy:	0.003598	0.065554	14460.923170
+GPU dual:	0.017763	0.481394	2003.377888
+CPU native:	0.980678	0.343133	2914.322084
+GPU map norm:	0.022334	0.081886	9595.095281
+Collecting data...
+Generating '/tmp/nsys-report-39f0.qdstrm'
+[1/1] [0%                          ] n100_i1000_job_teams_N_half.nsys-rep[1/1] [0%                          ] n100_i1000_job_teams_N_half.nsys-rep[1/1] [10%                         ] n100_i1000_job_teams_N_half.nsys-rep[1/1] [===22%                      ] n100_i1000_job_teams_N_half.nsys-rep[1/1] [===24%                      ] n100_i1000_job_teams_N_half.nsys-rep[1/1] [========================100%] n100_i1000_job_teams_N_half.nsys-rep[1/1] [========================100%] n100_i1000_job_teams_N_half.nsys-rep
+Generated:
+    /zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson/n100_i1000_job_teams_N_half.nsys-rep
+Running poisson with grid size 200
+WARNING: CPU IP/backtrace sampling not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+WARNING: CPU context switch tracing not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+CPU native:	0.998032	1.134224	7053.280866
+GPU map:	0.119704	44.711918	178.445473
+GPU memcpy:	0.017009	44.524449	179.607951
+GPU dual:	0.055148	33.292823	239.894655
+CPU native:	0.998032	2.516477	3179.047698
+GPU map norm:	0.101149	46.370485	172.148025
+Collecting data...
+Generating '/tmp/nsys-report-7f1f.qdstrm'
+[1/1] [0%                          ] n200_i1000_job_teams_N_half.nsys-rep[1/1] [0%                          ] n200_i1000_job_teams_N_half.nsys-rep[1/1] [5%                          ] n200_i1000_job_teams_N_half.nsys-rep[1/1] [7%                          ] n200_i1000_job_teams_N_half.nsys-rep[1/1] [11%                         ] n200_i1000_job_teams_N_half.nsys-rep[1/1] [13%                         ] n200_i1000_job_teams_N_half.nsys-rep[1/1] [========================100%] n200_i1000_job_teams_N_half.nsys-rep[1/1] [========================100%] n200_i1000_job_teams_N_half.nsys-rep
+Generated:
+    /zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson/n200_i1000_job_teams_N_half.nsys-rep
+Running poisson with grid size 500
+WARNING: CPU IP/backtrace sampling not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+WARNING: CPU context switch tracing not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+Connection to Agent lost. This is most likely a bug. Internal reason: 'End of file'.
+Please refer to the troubleshooting section of the docs:
+https://docs.nvidia.com/nsight-systems/UserGuide/index.html#troubleshooting
+Collecting data...

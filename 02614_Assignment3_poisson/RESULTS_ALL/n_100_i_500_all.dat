@@ -1,0 +1,17 @@
+CPU native	1.085235	0.091638	1.176873	5456.246520
+GPU map_	0.021187	0.140014	0.161201	3101.717727
+GPU memcpy	0.003589	0.117408	0.120997	4132.335497
+GPU dual	0.008834    0.221921    0.230755    2166.799434
+CPU norm	1.085235	0.171850	1.257085	2909.514686
+GPU mapnorm	0.024316	0.128214	0.152530	3278.044633
+Collecting data...
+Generating '/tmp/nsys-report-eef1.qdstrm'
+
+[1/1] [0%                          ] n_100_i_500_all.nsys-rep
+[1/1] [0%                          ] n_100_i_500_all.nsys-rep
+[1/1] [13%                         ] n_100_i_500_all.nsys-rep
+[1/1] [=16%                        ] n_100_i_500_all.nsys-rep
+[1/1] [========================100%] n_100_i_500_all.nsys-rep
+[1/1] [========================100%] n_100_i_500_all.nsys-rep
+Generated:
+    /zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson/n_100_i_500_all.nsys-rep

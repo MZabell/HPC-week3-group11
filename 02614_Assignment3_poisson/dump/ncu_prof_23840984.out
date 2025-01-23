@@ -1,0 +1,184 @@
+Running poisson with grid size 500
+==PROF== Connected to process 1146506 (/zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson/poisson)
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 0: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 1: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 2: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 3: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 4: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 5: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_F1L76_2" - 6: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_F1L76_2" - 7: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_F1L76_2" - 8: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_F1L76_2" - 9: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_F1L76_2" - 10: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_F1L76_2" - 11: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_F1L76_2" - 12: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_F1L76_2" - 13: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_F1L76_2" - 14: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_F1L76_2" - 15: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L18_2" - 16: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L30_4" - 17: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L18_2" - 18: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L30_4" - 19: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L18_2" - 20: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L30_4" - 21: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_gpupt..." - 22: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_gpupt..." - 23: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_gpupt..." - 24: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_gpupt..." - 25: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_gpupt..." - 26: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_gpupt..." - 27: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_gpupt..." - 28: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_gpupt..." - 29: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_gpupt..." - 30: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_gpupt..." - 31: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L18_2" - 32: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L30_4" - 33: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L18_2" - 34: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L30_4" - 35: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L18_2" - 36: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L30_4" - 37: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L18_2" - 38: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L30_4" - 39: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L18_2" - 40: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L30_4" - 41: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L18_2" - 42: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_malloc_3d_dev_F1L30_4" - 43: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 44: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 45: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 46: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 47: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 48: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 49: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 50: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 51: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 52: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 53: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 54: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 55: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 56: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 57: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 58: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 59: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 60: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 61: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 62: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_dual_..." - 63: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 64: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 65: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 66: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 67: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 68: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 69: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 70: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 71: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 72: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 73: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 74: 0%....50%....100% - 10 passes
+==PROF== Profiling "__pgi_uacc_cuda_fill_44" - 75: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_tol_F..." - 76: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_tol_F..." - 77: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_tol_F..." - 78: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_tol_F..." - 79: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_tol_F..." - 80: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_tol_F..." - 81: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_tol_F..." - 82: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_tol_F..." - 83: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_tol_F..." - 84: 0%....50%....100% - 10 passes
+==PROF== Profiling "nvkernel_jacobi_offload_tol_F..." - 85: 0%....50%....100% - 10 passes
+CPU native:	3.788821	0.240246	5202.999013
+GPU map:	33.697156	53.405511	14.350881
+GPU memcpy:	30.676059	53.296936	14.885738
+GPU dual:	68.453677	120.208479	6.625600
+CPU native:	3.788821	0.466055	2682.087359
+GPU map norm:	35.124851	57.887907	13.439017
+==PROF== Disconnected from process 1146506
+==PROF== Report: /zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson/n500_i10_job_teams_N_sq.ncu-rep
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23840984: <ncu_prof> in cluster <dcc> Done
+
+Job <ncu_prof> was submitted from host <n-62-12-81> by user <s240067> in cluster <dcc> at Thu Jan 23 13:19:38 2025
+Job was executed on host(s) <32*n-62-12-89>, in queue <hpcintrogpu>, as user <s240067> in cluster <dcc> at Thu Jan 23 13:22:32 2025
+</zhome/d0/0/208745> was used as the home directory.
+</zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson> was used as the working directory.
+Started at Thu Jan 23 13:22:32 2025
+Terminated at Thu Jan 23 13:30:48 2025
+Results reported at Thu Jan 23 13:30:48 2025
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+# 02614 - High-Performance Computing, January 2024
+# 
+# batch script to run matmult on a dedicated GPU server in the hpcintrogpu
+# queue
+#
+# Author: Bernd Dammann <bd@cc.dtu.dk>
+#         Hans Henrik Brandenborg Sørensen <hhbs@dtu.dk>
+#
+#BSUB -J ncu_prof
+#BSUB -o ncu_prof_%J.out
+#BSUB -q hpcintrogpu
+#BSUB -n 32
+#BSUB -R "rusage[mem=2048]"
+#BSUB -W 15
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=2:mode=exclusive_process"
+
+# define the name of this job, e.g. static / dynamic / whatever that describes it
+NAME=""
+
+# define the grid sizes
+SIZES="500"
+
+# define the thread nums
+THREADS="10"
+
+# define properties
+ITERATIONS=10
+TOLERANCE=0.0
+START_T=0.0
+
+CC=${1-"gcc"}
+LOGEXT=dat
+
+# set tmp dir for profiler lock
+#
+export TMPDIR=$__LSF_JOB_TMPDIR__
+
+# load module for shared cuda libraries
+module load nvhpc/24.11
+
+# start the collect command with the above settings
+for S in $SIZES
+do
+    echo "Running poisson with grid size $S"
+    export OMP_NUM_THREADS=$THREADS
+    export CUDA_VISIBLE_DEVICES=0,1
+    export OMP_SCHEDULE="static"
+    #nsys profile -o n${S}_i${ITERATIONS}_job_teams_N_sq ./poisson $S $ITERATIONS $TOLERANCE $START_T
+
+(... more ...)
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   885.00 sec.
+    Max Memory :                                 397 MB
+    Average Memory :                             384.67 MB
+    Total Requested Memory :                     65536.00 MB
+    Delta Memory :                               65139.00 MB
+    Max Swap :                                   -
+    Max Processes :                              7
+    Max Threads :                                30
+    Run time :                                   497 sec.
+    Turnaround time :                            670 sec.
+
+The output (if any) is above this job summary.
+

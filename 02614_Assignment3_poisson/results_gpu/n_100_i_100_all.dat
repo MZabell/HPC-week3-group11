@@ -1,0 +1,9 @@
+GPU map_	0.021724	0.047112	0.068836	1452.723746
+GPU memcpy	0.003664	0.024762	0.028426	3517.914566
+GPU dual	0.023554	0.243401	0.266955	374.595111
+GPU map norm	0.023741	0.026616	0.050357	1985.826563
+Collecting data...
+Generating '/tmp/nsys-report-f64d.qdstrm'
+[1/1] [0%                          ] n_100_i_100_all.nsys-rep[1/1] [0%                          ] n_100_i_100_all.nsys-rep[1/1] [7%                          ] n_100_i_100_all.nsys-rep[1/1] [========================100%] n_100_i_100_all.nsys-rep[1/1] [========================100%] n_100_i_100_all.nsys-rep
+Generated:
+    /zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson/n_100_i_100_all.nsys-rep

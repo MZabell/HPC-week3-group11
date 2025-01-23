@@ -19,14 +19,14 @@
 # define the name of this job, e.g. static / dynamic / whatever that describes it
 NAME=""
 
-# define the grid sizes
-SIZES="500"
+# define the grid sizes and iterations
+SIZES="100 200 500"
+ITERATIONS="100 500 1000"
 
 # define the thread nums
 THREADS="10"
 
 # define properties
-ITERATIONS=10
 TOLERANCE=0.0
 START_T=0.0
 
@@ -35,7 +35,7 @@ LOGEXT=dat
 
 # set tmp dir for profiler lock
 #
-export TMPDIR=$__LSF_JOB_TMPDIR__
+#export TMPDIR=$__LSF_JOB_TMPDIR__
 
 # load module for shared cuda libraries
 module load nvhpc/24.11
@@ -43,15 +43,18 @@ module load nvhpc/24.11
 # start the collect command with the above settings
 for S in $SIZES
 do
-    echo "Running poisson with grid size $S"
+    for ITER in $ITERATIONS
+    do
+    echo "Running poisson with grid size $S and $ITER iterations"
     export OMP_NUM_THREADS=$THREADS
     export CUDA_VISIBLE_DEVICES=0,1
     export OMP_SCHEDULE="static"
-    #nsys profile -o n${S}_i${ITERATIONS}_job_teams_N_sq ./poisson $S $ITERATIONS $TOLERANCE $START_T
-    ncu -o n${S}_i${ITERATIONS}_job_teams_N_sq \
-        --set full \
-        --section MemoryWorkloadAnalysis \
-        --section MemoryWorkloadAnalysis_Chart \
-        --section ComputeWorkloadAnalysis \
-        ./poisson $S $ITERATIONS $TOLERANCE $START_T
+    nsys profile -o n_${S}_i_${ITER}_all ./poisson $S $ITER $TOLERANCE $START_T >> n_${S}_i_${ITER}_all.$LOGEXT
+    #ncu -o n${S}_i${ITERATIONS}_job_teams_N_sq \
+    #    --set full \
+    #    --section MemoryWorkloadAnalysis \
+    #    --section MemoryWorkloadAnalysis_Chart \
+    #    --section ComputeWorkloadAnalysis \
+    #    ./poisson $S $ITERATIONS $TOLERANCE $START_T
+    done
 done

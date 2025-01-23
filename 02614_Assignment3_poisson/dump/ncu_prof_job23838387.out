@@ -1,0 +1,138 @@
+Running poisson with grid size 100
+WARNING: CPU IP/backtrace sampling not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+WARNING: CPU context switch tracing not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+CPU native:	1.006233	0.179064	5584.594347
+GPU map:	0.030128	0.091957	8191.008120
+GPU memcpy:	0.003568	0.067402	14090.449155
+GPU dual:	0.017584	0.388578	2462.073087
+CPU native:	1.006233	0.343041	2915.103926
+GPU map norm:	0.022526	0.087615	9079.267910
+Collecting data...
+Generating '/tmp/nsys-report-851e.qdstrm'
+[1/1] [0%                          ] n100_i1000_job.nsys-rep[1/1] [0%                          ] n100_i1000_job.nsys-rep[1/1] [11%                         ] n100_i1000_job.nsys-rep[1/1] [===22%                      ] n100_i1000_job.nsys-rep[1/1] [====25%                     ] n100_i1000_job.nsys-rep[1/1] [========================100%] n100_i1000_job.nsys-rep[1/1] [========================100%] n100_i1000_job.nsys-rep
+Generated:
+    /zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson/n100_i1000_job.nsys-rep
+Running poisson with grid size 200
+WARNING: CPU IP/backtrace sampling not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+WARNING: CPU context switch tracing not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+CPU native:	1.003846	1.144598	6989.353423
+GPU map:	0.109087	0.581000	11592.739861
+GPU memcpy:	0.022831	0.555823	13825.186203
+GPU dual:	0.039673	0.842219	9071.405920
+CPU native:	1.003846	2.509849	3187.442660
+GPU map norm:	0.095351	0.585240	11754.492128
+Collecting data...
+Generating '/tmp/nsys-report-c6d7.qdstrm'
+[1/1] [0%                          ] n200_i1000_job.nsys-rep[1/1] [0%                          ] n200_i1000_job.nsys-rep[1/1] [7%                          ] n200_i1000_job.nsys-rep[1/1] [9%                          ] n200_i1000_job.nsys-rep[1/1] [========================100%] n200_i1000_job.nsys-rep[1/1] [========================100%] n200_i1000_job.nsys-rep
+Generated:
+    /zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson/n200_i1000_job.nsys-rep
+Running poisson with grid size 500
+WARNING: CPU IP/backtrace sampling not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+WARNING: CPU context switch tracing not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+CPU native:	3.263765	21.040349	5940.966091
+GPU map:	0.406389	8.129883	14643.394597
+GPU memcpy:	0.212830	8.117723	15005.006172
+GPU dual:	0.254144	5.444187	21936.248114
+CPU native:	3.263765	48.293715	2588.328523
+GPU map norm:	0.409698	8.294762	14360.454058
+Collecting data...
+Generating '/tmp/nsys-report-6ad3.qdstrm'
+[1/1] [0%                          ] n500_i1000_job.nsys-rep[1/1] [0%                          ] n500_i1000_job.nsys-rep[1/1] [========================100%] n500_i1000_job.nsys-rep[1/1] [========================100%] n500_i1000_job.nsys-rep
+Generated:
+    /zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson/n500_i1000_job.nsys-rep
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23838387: <ncu_prof> in cluster <dcc> Done
+
+Job <ncu_prof> was submitted from host <n-62-12-81> by user <s240067> in cluster <dcc> at Thu Jan 23 11:55:07 2025
+Job was executed on host(s) <32*n-62-12-89>, in queue <hpcintrogpu>, as user <s240067> in cluster <dcc> at Thu Jan 23 11:57:23 2025
+</zhome/d0/0/208745> was used as the home directory.
+</zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson> was used as the working directory.
+Started at Thu Jan 23 11:57:23 2025
+Terminated at Thu Jan 23 11:59:47 2025
+Results reported at Thu Jan 23 11:59:47 2025
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+# 02614 - High-Performance Computing, January 2024
+# 
+# batch script to run matmult on a dedicated GPU server in the hpcintrogpu
+# queue
+#
+# Author: Bernd Dammann <bd@cc.dtu.dk>
+#         Hans Henrik Brandenborg Sørensen <hhbs@dtu.dk>
+#
+#BSUB -J ncu_prof
+#BSUB -o ncu_prof_%J.out
+#BSUB -q hpcintrogpu
+#BSUB -n 32
+#BSUB -R "rusage[mem=2048]"
+#BSUB -W 15
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=2:mode=exclusive_process"
+
+# define the name of this job, e.g. static / dynamic / whatever that describes it
+NAME=""
+
+# define the grid sizes
+SIZES="100 200 500"
+
+# define the thread nums
+THREADS="10"
+
+# define properties
+ITERATIONS=1000
+TOLERANCE=0.0
+START_T=0.0
+
+CC=${1-"gcc"}
+LOGEXT=dat
+
+# load module for shared cuda libraries
+module load nvhpc/24.11
+
+# start the collect command with the above settings
+for S in $SIZES
+do
+    echo "Running poisson with grid size $S"
+    export OMP_NUM_THREADS=$THREADS
+    export CUDA_VISIBLE_DEVICES=0,1
+    export OMP_SCHEDULE="static"
+    nsys profile -o n${S}_i${ITERATIONS}_job ./poisson $S $ITERATIONS $TOLERANCE $START_T
+done
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   798.00 sec.
+    Max Memory :                                 40 MB
+    Average Memory :                             15.33 MB
+    Total Requested Memory :                     65536.00 MB
+    Delta Memory :                               65496.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                23
+    Run time :                                   145 sec.
+    Turnaround time :                            280 sec.
+
+The output (if any) is above this job summary.
+

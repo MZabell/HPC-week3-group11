@@ -1,0 +1,136 @@
+Running poisson with grid size 100
+WARNING: CPU IP/backtrace sampling not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+WARNING: CPU context switch tracing not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+CPU native:	1.016838	0.182593	5476.657992
+GPU map:	0.029541	0.091601	8254.781483
+GPU memcpy:	0.003676	0.064747	14615.012579
+GPU dual:	0.025870	0.461267	2052.811276
+CPU native:	1.016838	0.340158	2939.810447
+GPU map norm:	0.022573	0.082017	9561.127283
+Collecting data...
+Generating '/tmp/nsys-report-2c9b.qdstrm'
+[1/1] [0%                          ] n100_i1000_job_teams_N_sq.nsys-rep[1/1] [0%                          ] n100_i1000_job_teams_N_sq.nsys-rep[1/1] [10%                         ] n100_i1000_job_teams_N_sq.nsys-rep[1/1] [===22%                      ] n100_i1000_job_teams_N_sq.nsys-rep[1/1] [===24%                      ] n100_i1000_job_teams_N_sq.nsys-rep[1/1] [====25%                     ] n100_i1000_job_teams_N_sq.nsys-rep[1/1] [========================100%] n100_i1000_job_teams_N_sq.nsys-rep[1/1] [========================100%] n100_i1000_job_teams_N_sq.nsys-rep
+Generated:
+    /zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson/n100_i1000_job_teams_N_sq.nsys-rep
+Running poisson with grid size 200
+WARNING: CPU IP/backtrace sampling not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+WARNING: CPU context switch tracing not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+CPU native:	0.995782	1.143264	6997.508549
+GPU map:	0.114210	0.466766	13769.931754
+GPU memcpy:	0.016414	0.444799	17345.569607
+GPU dual:	0.048124	0.847105	8936.262371
+CPU native:	0.995782	2.520458	3174.026329
+GPU map norm:	0.100123	0.448815	14573.593877
+Collecting data...
+Generating '/tmp/nsys-report-fb0f.qdstrm'
+[1/1] [0%                          ] n200_i1000_job_teams_N_sq.nsys-rep[1/1] [0%                          ] n200_i1000_job_teams_N_sq.nsys-rep[1/1] [7%                          ] n200_i1000_job_teams_N_sq.nsys-rep[1/1] [9%                          ] n200_i1000_job_teams_N_sq.nsys-rep[1/1] [========================100%] n200_i1000_job_teams_N_sq.nsys-rep[1/1] [========================100%] n200_i1000_job_teams_N_sq.nsys-rep
+Generated:
+    /zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson/n200_i1000_job_teams_N_sq.nsys-rep
+Running poisson with grid size 500
+WARNING: CPU IP/backtrace sampling not supported, disabling.
+Try the 'nsys status --environment' command to learn more.
+
+WARNING: CPU context switch tracing not supported,CPU native:	3.259672	30.432189	4107.492893
+GPU map:	0.418096	32.492606	3798.156601
+GPU memcpy:	0.217298	32.399110	3832.426905
+GPU dual:	0.274055	17.634500	6979.904285
+CPU native:	3.259672	46.545542	2685.541829
+GPU map norm:	0.398151	34.064744	3627.089375
+Collecting data...
+Generating '/tmp/nsys-report-4278.qdstrm'
+[1/1] [0%                          ] n500_i1000_job_teams_N_sq.nsys-rep[1/1] [0%                          ] n500_i1000_job_teams_N_sq.nsys-rep[1/1] [========================100%] n500_i1000_job_teams_N_sq.nsys-rep[1/1] [========================100%] n500_i1000_job_teams_N_sq.nsys-rep
+Generated:
+    /zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson/n500_i1000_job_teams_N_sq.nsys-rep
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 23840347: <ncu_prof> in cluster <dcc> Exited
+
+Job <ncu_prof> was submitted from host <n-62-12-81> by user <s240067> in cluster <dcc> at Thu Jan 23 12:40:46 2025
+Job was executed on host(s) <32*n-62-12-88>, in queue <hpcintrogpu>, as user <s240067> in cluster <dcc> at Thu Jan 23 12:45:36 2025
+</zhome/d0/0/208745> was used as the home directory.
+</zhome/d0/0/208745/HPC_Workspace/week_3/HPC-week3-group11/02614_Assignment3_poisson> was used as the working directory.
+Started at Thu Jan 23 12:45:36 2025
+Terminated at Thu Jan 23 12:49:45 2025
+Results reported at Thu Jan 23 12:49:45 2025
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+# 02614 - High-Performance Computing, January 2024
+# 
+# batch script to run matmult on a dedicated GPU server in the hpcintrogpu
+# queue
+#
+# Author: Bernd Dammann <bd@cc.dtu.dk>
+#         Hans Henrik Brandenborg Sørensen <hhbs@dtu.dk>
+#
+#BSUB -J ncu_prof
+#BSUB -o ncu_prof_%J.out
+#BSUB -q hpcintrogpu
+#BSUB -n 32
+#BSUB -R "rusage[mem=2048]"
+#BSUB -W 15
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=2:mode=exclusive_process"
+
+# define the name of this job, e.g. static / dynamic / whatever that describes it
+NAME=""
+
+# define the grid sizes
+SIZES="100 200 500"
+
+# define the thread nums
+THREADS="10"
+
+# define properties
+ITERATIONS=1000
+TOLERANCE=0.0
+START_T=0.0
+
+CC=${1-"gcc"}
+LOGEXT=dat
+
+# load module for shared cuda libraries
+module load nvhpc/24.11
+
+# start the collect command with the above settings
+for S in $SIZES
+do
+    echo "Running poisson with grid size $S"
+    export OMP_NUM_THREADS=$THREADS
+    export CUDA_VISIBLE_DEVICES=0,1
+    export OMP_SCHEDULE="static"
+    nsys profile -o n${S}_i${ITERATIONS}_job_teams_N_sq ./poisson $S $ITERATIONS $TOLERANCE $START_T
+done
+
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with signal termination: 14.
+
+Resource usage summary:
+
+    CPU time :                                   966.00 sec.
+    Max Memory :                                 1046 MB
+    Average Memory :                             435.50 MB
+    Total Requested Memory :                     65536.00 MB
+    Delta Memory :                               64490.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                42
+    Run time :                                   250 sec.
+    Turnaround time :                            539 sec.
+
+The output (if any) is above this job summary.
+

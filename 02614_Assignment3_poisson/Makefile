@@ -3,6 +3,7 @@ OBJS	= main.o \
         jacobi.o \
         alloc3d.o \
         alloc3d_dev.o \
+        print.o \
 
 CC	= nvc
 CXX	= nvc++

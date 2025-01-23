@@ -1,0 +1,57 @@
+#!/bin/bash
+# 02614 - High-Performance Computing, January 2024
+# 
+# batch script to run matmult on a dedicated GPU server in the hpcintrogpu
+# queue
+#
+# Author: Bernd Dammann <bd@cc.dtu.dk>
+#         Hans Henrik Brandenborg Sørensen <hhbs@dtu.dk>
+#
+#BSUB -J ncu_prof
+#BSUB -o ncu_prof_%J.out
+#BSUB -q hpcintrogpu
+#BSUB -n 32
+#BSUB -R "rusage[mem=2048]"
+#BSUB -W 15
+#BSUB -R "span[hosts=1]"
+#BSUB -gpu "num=2:mode=exclusive_process"
+
+# define the name of this job, e.g. static / dynamic / whatever that describes it
+NAME=""
+
+# define the grid sizes
+SIZES="500"
+
+# define the thread nums
+THREADS="10"
+
+# define properties
+ITERATIONS=10
+TOLERANCE=0.0
+START_T=0.0
+
+CC=${1-"gcc"}
+LOGEXT=dat
+
+# set tmp dir for profiler lock
+#
+export TMPDIR=$__LSF_JOB_TMPDIR__
+
+# load module for shared cuda libraries
+module load nvhpc/24.11
+
+# start the collect command with the above settings
+for S in $SIZES
+do
+    echo "Running poisson with grid size $S"
+    export OMP_NUM_THREADS=$THREADS
+    export CUDA_VISIBLE_DEVICES=0,1
+    export OMP_SCHEDULE="static"
+    #nsys profile -o n${S}_i${ITERATIONS}_job_teams_N_sq ./poisson $S $ITERATIONS $TOLERANCE $START_T
+    ncu -o n${S}_i${ITERATIONS}_job_teams_N_sq \
+        --set full \
+        --section MemoryWorkloadAnalysis \
+        --section MemoryWorkloadAnalysis_Chart \
+        --section ComputeWorkloadAnalysis \
+        ./poisson $S $ITERATIONS $TOLERANCE $START_T
+done

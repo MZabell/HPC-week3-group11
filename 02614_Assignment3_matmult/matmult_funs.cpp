@@ -76,7 +76,7 @@ void matmult_mnk_offload2(int m, int n, int k, double **A, double **B, double **
 
 void matmult_mnk_offload(int m, int n, int k, double **A, double **B, double **C) {
 
-    #pragma omp target teams distribute parallel for collapse(2) \
+#pragma omp target teams distribute parallel for collapse(2) \
     map(to: A[0:m][0:k], B[0:k][0:n]) map(tofrom: C[0:m][0:n])
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
@@ -96,16 +96,47 @@ void matmult_mnk_offload(int m, int n, int k, double **A, double **B, double **C
 }
 
 
-
-
-
-
-
-
 /* ---------------- BLK -----------------------*/
 
+
 void matmult_blk_offload(int m, int n, int k, double **A, double **B, double **C) {
-    const int bs = 8;
+#define BLK 8
+
+#pragma omp target teams distribute parallel for num_teams(114) thread_limit(64) \
+        map(to: A[0:m][0:k], B[0:k][0:n]) map(tofrom: C[0:m][0:n])
+    for (int i = 0; i < m; i += BLK) {
+        for (int j = 0; j < n; ++j) {
+            if (i + BLK - 1 < m) { // If the full block fits within the range
+                // Do BLK elements of C here
+                double sum[BLK] = {0};
+                for (int l = 0; l < k; ++l) {
+                    for (int ii = 0; ii < BLK; ++ii) {
+                        sum[ii] += A[i + ii][l] * B[l][j];
+                    }
+                }
+                for (int ii = 0; ii < BLK; ++ii) {
+                    C[i + ii][j] = sum[ii];
+                }
+            } else {
+                // Do the remainder part here
+                for (int ii = 0; ii < m - i; ++ii) {
+                    double sum = 0;
+                    for (int l = 0; l < k; ++l) {
+                        sum += A[i + ii][l] * B[l][j];
+                    }
+                    C[i + ii][j] = sum;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+void matmult_blk_offload2(int m, int n, int k, double **A, double **B, double **C) {
+    int bs = 8;
 #pragma omp target teams distribute parallel for num_teams(114) thread_limit(64) \
         map(to: A[0:m][0:k], B[0:k][0:n]) map(tofrom: C[0:m][0:n])
     for (int i_block = 0; i_block < m; i_block += bs) {
@@ -126,6 +157,13 @@ void matmult_blk_offload(int m, int n, int k, double **A, double **B, double **C
 
 
 
+void test(double* A, int n) {
+#pragma omp target teams distribute parallel for num_teams(114) thread_limit(64) \
+        map(tofrom: A[0:n])
 
+    for (int i = 0; i < n; ++i) {
+
+    }
+}
 
 }

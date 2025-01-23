@@ -42,11 +42,12 @@ void matmult_mkn_offload(int m, int n, int k, const double **A, const double **B
 
 /* ---------------- MNK -----------------------*/
 
-void matmult_mnk_offload_main(int m, int n, int k, double **A, double **B, double **C) {
-#pragma omp target teams distribute parallel for num_teams(114) thread_limit(64) \
+void matmult_mnk_offload(int m, int n, int k, double **A, double **B, double **C) {
+    int thread_size = 64;
+    int team_size = m * n / thread_size;
+#pragma omp target teams distribute parallel for collapse(2) num_teams(team_size) thread_limit(thread_size) \
         map(to: A[0:m][0:k], B[0:k][0:n]) map(tofrom: C[0:m][0:n])
     for (int i = 0; i < m; i++) {
-
         for (int j = 0; j < n; j++) {
             double sum = 0;
             for (int l = 0; l < k; l++) {
@@ -74,7 +75,7 @@ void matmult_mnk_offload2(int m, int n, int k, double **A, double **B, double **
 }
 
 
-void matmult_mnk_offload(int m, int n, int k, double **A, double **B, double **C) {
+void matmult_mnk_offload_4(int m, int n, int k, double **A, double **B, double **C) {
 
 #pragma omp target teams distribute parallel for collapse(2) \
     map(to: A[0:m][0:k], B[0:k][0:n]) map(tofrom: C[0:m][0:n])

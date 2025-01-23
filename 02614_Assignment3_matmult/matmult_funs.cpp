@@ -20,7 +20,7 @@ extern "C" {
 #include <stdio.h>
 
 
-void matmult_mkn_offload(int m, int n, int k, double **A, double **B, double **C) {
+void matmult_mkn_offload_min(int m, int n, int k, double **A, double **B, double **C) {
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
             C[i][j] = 0;
@@ -37,6 +37,26 @@ void matmult_mkn_offload(int m, int n, int k, double **A, double **B, double **C
         }
     }
 }
+
+
+void matmult_mkn_offload(int m, int n, int k, double **A, double **B, double **C) {
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            C[i][j] = 0;
+        }
+    }
+
+#pragma omp target teams distribute parallel for collapse(2) num_teams(114) thread_limit(64) \
+        map(to: A[0:m][0:k], B[0:k][0:n]) map(tofrom: C[0:m][0:n])
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            for (int l = 0; l < k; l++) {
+                C[i][j] += A[i][l] * B[l][j];
+            }
+        }
+    }
+}
+
 
 
 

@@ -71,8 +71,7 @@ jacobi_offload(double ***f, double ***u, double ***u_2, int N, int iter_max) {
         iter++;
         #pragma omp target teams distribute parallel for collapse(2) \
         default(none) shared(f, u, u_2, N, delta_2) \
-        num_teams(ceil(N*N/512.0)) thread_limit(512) \
-        //map(to: u_2[:N][:N][:N], f[:N][:N][:N]) map(tofrom: u[:N][:N][:N]) // slower if i uncomment??
+        num_teams(ceil(N*N/512.0)) thread_limit(512)
         for(int i = 1; i < N-1; i++) {
             for(int k = 1; k < N-1; k++) {
                 for(int j = 1; j < N-1; j++) {
@@ -102,8 +101,7 @@ jacobi_offload_tol(double ***f, double ***u, double ***u_2, int N, int iter_max,
         sum = 0.0;
         #pragma omp target teams distribute parallel for collapse(2) \
         default(none) shared(f, u, u_2, N, delta_2) \
-        num_teams(ceil(N*N/512.0)) thread_limit(512) reduction(+:sum) \
-        //map(to: u_2[:N][:N][:N], f[:N][:N][:N]) map(tofrom: u[:N][:N][:N]) // slower if i uncomment??
+        num_teams(ceil(N*N/512.0)) thread_limit(512) reduction(+:sum)
         for(int i = 1; i < N-1; i++) {
             for(int k = 1; k < N-1; k++) {
                 for(int j = 1; j < N-1; j++) {

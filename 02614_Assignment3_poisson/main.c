@@ -55,7 +55,7 @@ main(int argc, char *argv[]) {
     double start, start_calc, calc, elapsed_time, Mlups;
 
     // ########## CPU ##########
-    start = omp_get_wtime();
+    /*start = omp_get_wtime();
     #pragma omp parallel default(none) shared(f, u, u_2, N, iter_max, start_T)
     {
         // --------Initialization-----------
@@ -70,8 +70,8 @@ main(int argc, char *argv[]) {
     Mlups = (double)N * N * N * iter_max / elapsed_time / 1e6;
     // Calculate memory footprint
     //int mem_footprint = N * N * N * 3 * 8;
-    printf("CPU native\t%f\t%f\t%f\n", mem, elapsed_time, Mlups);
-    print_binary("res_bin_cpu.bin", N+2, u);
+    printf("CPU native\t%f\t%f\t%f\t%f\n", mem, elapsed_time, mem+elapsed_time, Mlups);
+    //print_binary("res_bin_cpu.bin", N+2, u);
 
 
     // ########## GPU MAP CLAUSE ##########
@@ -96,8 +96,8 @@ main(int argc, char *argv[]) {
     elapsed_time = omp_get_wtime() - start - warmup;
     // Calculate lups
     Mlups = (double)N * N * N * iter_max / elapsed_time / 1e6;
-    printf("GPU map_\t%f\t%f\t%f\n", elapsed_time - calc, calc, Mlups);
-    print_binary("res_bin_gpu_map.bin", N+2, u);
+    printf("GPU map_\t%f\t%f\t%f\t%f\n", elapsed_time - calc, calc, elapsed_time, Mlups);
+    //print_binary("res_bin_gpu_map.bin", N+2, u);*/
 
 
     // ########## GPU MANUAL COPY ##########
@@ -146,8 +146,8 @@ main(int argc, char *argv[]) {
     elapsed_time = omp_get_wtime() - start;
     // Calculate lups
     Mlups = (double)N * N * N * iter_max / elapsed_time / 1e6;
-    printf("GPU memcpy\t%f\t%f\t%f\n", elapsed_time - calc, calc, Mlups);
-    print_binary("res_bin_gpu_memcpy.bin", N+2, u);
+    printf("GPU memcpy\t%f\t%f\t%f\t%f\n", elapsed_time - calc, calc, elapsed_time, Mlups);
+    //print_binary("res_bin_gpu_memcpy.bin", N+2, u);
 
 
     // ########## DUAL GPUS ##########
@@ -239,13 +239,13 @@ main(int argc, char *argv[]) {
     elapsed_time = omp_get_wtime() - start;
     // Calculate lups
     Mlups = (double)N * N * N * iter_max / elapsed_time / 1e6;
-    printf("GPU dual\t%f\t%f\t%f\n", elapsed_time - calc, calc, Mlups);
-    print_binary("res_bin_gpu_dual.bin", N+2, u);
+    printf("GPU dual\t%f\t%f\t%f\t%f\n", elapsed_time - calc, calc, elapsed_time, Mlups);
+    //print_binary("res_bin_gpu_dual.bin", N+2, u);
     omp_set_default_device(0);
 
 
     // ########## CPU NORM ##########
-    start = omp_get_wtime();
+    /*start = omp_get_wtime();
     #pragma omp parallel default(none) shared(f, u, u_2, N, iter_max, tolerance, start_T)
     {
         // --------Initialization-----------
@@ -260,8 +260,8 @@ main(int argc, char *argv[]) {
     Mlups = (double)N * N * N * iter_max / elapsed_time / 1e6;
     // Calculate memory footprint
     //int mem_footprint = N * N * N * 3 * 8;
-    printf("CPU norm\t%f\t%f\t%f\n", mem, elapsed_time, Mlups);
-    print_binary("res_bin_cpu_norm.bin", N+2, u);
+    printf("CPU norm\t%f\t%f\t%f\t%f\n", mem, elapsed_time, elapsed_time + mem, Mlups);
+    //print_binary("res_bin_cpu_norm.bin", N+2, u);
 
 
     // ########## GPU MAP CLAUSE NORM ##########
@@ -277,11 +277,11 @@ main(int argc, char *argv[]) {
         jacobi_offload_tol(f, u, u_2, N+2, iter_max, tolerance);
         calc = omp_get_wtime() - start_calc;
     }
-    elapsed_time = omp_get_wtime() - start - warmup;
+    elapsed_time = omp_get_wtime() - start;
     // Calculate lups
     Mlups = (double)N * N * N * iter_max / elapsed_time / 1e6;
-    printf("GPU map norm\t%f\t%f\t%f\n", elapsed_time - calc, calc, Mlups);
-    print_binary("res_bin_gpu_map_norm.bin", N+2, u);
+    printf("GPU mapnorm\t%f\t%f\t%f\t%f\n", elapsed_time - calc, calc, elapsed_time, Mlups);
+    //print_binary("res_bin_gpu_map_norm.bin", N+2, u);*/
 
 
     // #####################################

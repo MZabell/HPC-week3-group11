@@ -9,6 +9,11 @@
  */
 
 
+// Minimum number of threads for full throughput (this is not optimal!): N SMs x 4 x 32
+// Minimum number of threads for full occupancy (this is often optimal): N SMs x 4 x 12 x 32 =
+// If there is an imbalanced amount of work, use one thread per iteration.
+
+
 extern "C" {
 #include <cblas.h>
 #include <omp.h>
@@ -21,12 +26,32 @@ void matmult_mkn_offload(int m, int n, int k, double **A, double **B, double **C
             C[i][j] = 0;
         }
     }
+#pragma omp target teams distribute parallel for num_teams(114) thread_limit(64) \
+    map(to: A[0:m][0:k], B[0:k][0:n]) map(tofrom: C[0:m][0:n])
+    for (int i = 0; i < m; i++) {
+        // You want adjacent threads to access adjacent memory. E.g. thread 1,2,3,... access outermost index 1,2,3...
+        for (int l = 0; l < k; l++) {
+            for (int j = 0; j < n; j++) {
+                C[i][j] += A[i][l] * B[l][j];
+            }
+        }
+    }
+}
+
+
+
+void matmult_mkn_offload_ignore(int m, int n, int k, double **A, double **B, double **C) {
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            C[i][j] = 0;
+        }
+    }
 // Minimum number of threads for full throughput (this is not optimal!): N SMs x 4 x 32
 
 
 // Minimum number of threads for full occupancy (this is often optimal): N SMs x 4 x 12 x 32 =
 // If there is an imbalanced amount of work, use one thread per iteration.
-#pragma omp target teams distribute parallel for num_teams(114) thread_limit(64) \
+#pragma omp target teams distribute parallel for collapse(2) num_teams(64)  \
     map(to: A[0:m][0:k], B[0:k][0:n]) map(tofrom: C[0:m][0:n])
     for (int i = 0; i < m; i++) {
         for (int l = 0; l < k; l++) {

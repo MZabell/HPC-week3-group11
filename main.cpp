@@ -20,3 +20,6 @@ void transpose_per_elm(double **A, double **At)
         At[i][j] = A[j][i];
     }
 }*/
+
+
+// https://developer.nvidia.com/nsight-compute

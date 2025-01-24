@@ -157,89 +157,91 @@ main(int argc, char *argv[]) {
     cudaSetDevice(1);
     cudaDeviceEnablePeerAccess(0, 0); // (dev 0, future flag)
     cudaSetDevice(0);
-    start = omp_get_wtime();
     // --------Initialization-----------
     init_u(u, N+2, start_T);
     init_f(f, N+2);
     init_u(u_2, N+2, start_T);
     // -------- GPU Memory -----------
     // allocation
-    double ***u_d0, ***f_d0, ***u_2_d0;
-    double *u_ptr0, *f_ptr0, *u_2_ptr0;
-    omp_set_default_device(0);
-    if ( (u_d0 = malloc_3d_dev((N+2)/2, N+2, N+2, &u_ptr0)) == NULL ) {
-        perror("array u_d0: allocation failed");
-        exit(-1);
+    for (int i = 0; i < 2; i++) {
+        start = omp_get_wtime();
+        double ***u_d0, ***f_d0, ***u_2_d0;
+        double *u_ptr0, *f_ptr0, *u_2_ptr0;
+        omp_set_default_device(0);
+        if ( (u_d0 = malloc_3d_dev((N+2)/2, N+2, N+2, &u_ptr0)) == NULL ) {
+            perror("array u_d0: allocation failed");
+            exit(-1);
+        }
+        if ( (f_d0 = malloc_3d_dev((N+2)/2, N+2, N+2, &f_ptr0)) == NULL ) {
+            perror("array f_d0: allocation failed");
+            exit(-1);
+        }
+        if ( (u_2_d0 = malloc_3d_dev((N+2)/2, N+2, N+2, &u_2_ptr0)) == NULL ) {
+            perror("array u_2_d0: allocation failed");
+            exit(-1);
+        }
+        double ***u_d1, ***f_d1, ***u_2_d1;
+        double *u_ptr1, *f_ptr1, *u_2_ptr1;
+        omp_set_default_device(1);
+        if ( (u_d1 = malloc_3d_dev((N+2)/2, N+2, N+2, &u_ptr1)) == NULL ) {
+            perror("array u_d1: allocation failed");
+            exit(-1);
+        }
+        if ( (f_d1 = malloc_3d_dev((N+2)/2, N+2, N+2, &f_ptr1)) == NULL ) {
+            perror("array f_d1: allocation failed");
+            exit(-1);
+        }
+        if ( (u_2_d1 = malloc_3d_dev((N+2)/2, N+2, N+2, &u_2_ptr1)) == NULL ) {
+            perror("array u_2_d1: allocation failed");
+            exit(-1);
+        }
+        // copy data
+        omp_set_default_device(0);
+        int half_size = (N+2)/2 * (N+2) * (N+2) * sizeof(double);
+        omp_target_memcpy(u_ptr0, **u, half_size,
+                        0, 0, omp_get_default_device(),
+                        omp_get_initial_device());
+        omp_target_memcpy(f_ptr0, **f, half_size,
+                        0, 0, omp_get_default_device(),
+                        omp_get_initial_device());
+        omp_target_memcpy(u_2_ptr0, **u_2, half_size,
+                        0, 0, omp_get_default_device(),
+                        omp_get_initial_device());
+        omp_set_default_device(1);
+        omp_target_memcpy(u_ptr1, **u, half_size,
+                        0, half_size, omp_get_default_device(),
+                        omp_get_initial_device());
+        omp_target_memcpy(f_ptr1, **f, half_size,
+                        0, half_size, omp_get_default_device(),
+                        omp_get_initial_device());
+        omp_target_memcpy(u_2_ptr1, **u_2, half_size,
+                        0, half_size, omp_get_default_device(),
+                        omp_get_initial_device());
+        // --------Calculation-----------
+        start_calc = omp_get_wtime();
+        jacobi_offload_dual(f_d0, u_d0, u_2_d0, f_d1, u_d1, u_2_d1,
+                            N+2, iter_max);
+        calc = omp_get_wtime() - start_calc;
+        // --------Copy back and free-----------
+        omp_set_default_device(0);
+        omp_target_memcpy(**u, u_ptr0, half_size,
+                        0, 0, omp_get_initial_device(),
+                        omp_get_default_device());
+        free_3d_dev(u_d0, u_ptr0);
+        free_3d_dev(f_d0, f_ptr0);
+        free_3d_dev(u_2_d0, u_2_ptr0);
+        omp_set_default_device(1);
+        omp_target_memcpy(**u, u_ptr1, half_size,
+                        half_size, 0, omp_get_initial_device(),
+                        omp_get_default_device());
+        free_3d_dev(u_d1, u_ptr1);
+        free_3d_dev(f_d1, f_ptr1);
+        free_3d_dev(u_2_d1, u_2_ptr1);
+        elapsed_time = omp_get_wtime() - start;
+        // Calculate lups
+        Mlups = (double)N * N * N * iter_max / elapsed_time / 1e6;
+        printf("GPU dual\t%f\t%f\t%f\t%f\n", elapsed_time - calc, calc, elapsed_time, Mlups);
     }
-    if ( (f_d0 = malloc_3d_dev((N+2)/2, N+2, N+2, &f_ptr0)) == NULL ) {
-        perror("array f_d0: allocation failed");
-        exit(-1);
-    }
-    if ( (u_2_d0 = malloc_3d_dev((N+2)/2, N+2, N+2, &u_2_ptr0)) == NULL ) {
-        perror("array u_2_d0: allocation failed");
-        exit(-1);
-    }
-    double ***u_d1, ***f_d1, ***u_2_d1;
-    double *u_ptr1, *f_ptr1, *u_2_ptr1;
-    omp_set_default_device(1);
-    if ( (u_d1 = malloc_3d_dev((N+2)/2, N+2, N+2, &u_ptr1)) == NULL ) {
-        perror("array u_d1: allocation failed");
-        exit(-1);
-    }
-    if ( (f_d1 = malloc_3d_dev((N+2)/2, N+2, N+2, &f_ptr1)) == NULL ) {
-        perror("array f_d1: allocation failed");
-        exit(-1);
-    }
-    if ( (u_2_d1 = malloc_3d_dev((N+2)/2, N+2, N+2, &u_2_ptr1)) == NULL ) {
-        perror("array u_2_d1: allocation failed");
-        exit(-1);
-    }
-    // copy data
-    omp_set_default_device(0);
-    int half_size = (N+2)/2 * (N+2) * (N+2) * sizeof(double);
-    omp_target_memcpy(u_ptr0, **u, half_size,
-                      0, 0, omp_get_default_device(),
-                      omp_get_initial_device());
-    omp_target_memcpy(f_ptr0, **f, half_size,
-                      0, 0, omp_get_default_device(),
-                      omp_get_initial_device());
-    omp_target_memcpy(u_2_ptr0, **u_2, half_size,
-                      0, 0, omp_get_default_device(),
-                      omp_get_initial_device());
-    omp_set_default_device(1);
-    omp_target_memcpy(u_ptr1, **u, half_size,
-                      0, half_size, omp_get_default_device(),
-                      omp_get_initial_device());
-    omp_target_memcpy(f_ptr1, **f, half_size,
-                      0, half_size, omp_get_default_device(),
-                      omp_get_initial_device());
-    omp_target_memcpy(u_2_ptr1, **u_2, half_size,
-                      0, half_size, omp_get_default_device(),
-                      omp_get_initial_device());
-    // --------Calculation-----------
-    start_calc = omp_get_wtime();
-    jacobi_offload_dual(f_d0, u_d0, u_2_d0, f_d1, u_d1, u_2_d1,
-                        N+2, iter_max);
-    calc = omp_get_wtime() - start_calc;
-    // --------Copy back and free-----------
-    omp_set_default_device(0);
-    omp_target_memcpy(**u, u_ptr0, half_size,
-                      0, 0, omp_get_initial_device(),
-                      omp_get_default_device());
-    free_3d_dev(u_d0, u_ptr0);
-    free_3d_dev(f_d0, f_ptr0);
-    free_3d_dev(u_2_d0, u_2_ptr0);
-    omp_set_default_device(1);
-    omp_target_memcpy(**u, u_ptr1, half_size,
-                      half_size, 0, omp_get_initial_device(),
-                      omp_get_default_device());
-    free_3d_dev(u_d1, u_ptr1);
-    free_3d_dev(f_d1, f_ptr1);
-    free_3d_dev(u_2_d1, u_2_ptr1);
-    elapsed_time = omp_get_wtime() - start;
-    // Calculate lups
-    Mlups = (double)N * N * N * iter_max / elapsed_time / 1e6;
-    printf("GPU dual\t%f\t%f\t%f\t%f\n", elapsed_time - calc, calc, elapsed_time, Mlups);
     //print_binary("res_bin_gpu_dual.bin", N+2, u);
     omp_set_default_device(0);
 
